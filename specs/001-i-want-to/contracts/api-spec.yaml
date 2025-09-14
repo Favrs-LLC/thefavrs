@@ -1,0 +1,465 @@
+openapi: 3.0.3
+info:
+  title: TheFavrs API
+  description: API specification for TheFavrs website backend services
+  version: 1.0.0
+  contact:
+    email: will@thefavrs.com
+servers:
+  - url: https://api.thefavrs.com
+    description: Production server
+  - url: http://localhost:3000/api
+    description: Development server
+tags:
+  - name: contact
+    description: Contact form submissions
+  - name: newsletter
+    description: Newsletter subscriptions
+  - name: content
+    description: Dynamic content management
+  - name: logging
+    description: Frontend logging endpoint
+paths:
+  /api/contact:
+    post:
+      tags:
+        - contact
+      summary: Submit contact form
+      description: Submit a consultation request form
+      operationId: submitContactForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactSubmission'
+      responses:
+        '201':
+          description: Contact form submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/newsletter:
+    post:
+      tags:
+        - newsletter
+      summary: Subscribe to newsletter
+      description: Subscribe email to newsletter list
+      operationId: subscribeNewsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterSubscription'
+      responses:
+        '201':
+          description: Successfully subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterResponse'
+        '400':
+          description: Invalid email format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Email already subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/newsletter/confirm:
+    get:
+      tags:
+        - newsletter
+      summary: Confirm newsletter subscription
+      description: Confirm double opt-in for newsletter
+      operationId: confirmNewsletter
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: Confirmation token from email
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Subscription confirmed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationResponse'
+        '400':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Token not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/newsletter/unsubscribe:
+    post:
+      tags:
+        - newsletter
+      summary: Unsubscribe from newsletter
+      description: Unsubscribe email from newsletter
+      operationId: unsubscribeNewsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Successfully unsubscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnsubscribeResponse'
+        '404':
+          description: Email not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/content/{slug}:
+    get:
+      tags:
+        - content
+      summary: Get page content
+      description: Retrieve dynamic page content by slug
+      operationId: getPageContent
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Page slug identifier
+          schema:
+            type: string
+            pattern: '^[a-z0-9-]+$'
+      responses:
+        '200':
+          description: Page content retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageContent'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/services:
+    get:
+      tags:
+        - content
+      summary: Get service offerings
+      description: Retrieve active service offerings
+      operationId: getServices
+      responses:
+        '200':
+          description: Services retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  services:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiceOffering'
+  /api/team:
+    get:
+      tags:
+        - content
+      summary: Get team members
+      description: Retrieve active team members
+      operationId: getTeamMembers
+      responses:
+        '200':
+          description: Team members retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TeamMember'
+  /api/logs:
+    post:
+      tags:
+        - logging
+      summary: Submit frontend logs
+      description: Send frontend logs to backend for centralized logging
+      operationId: submitLogs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogEntry'
+      responses:
+        '202':
+          description: Logs accepted
+        '400':
+          description: Invalid log format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ContactSubmission:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          pattern: '^[a-zA-Z\s-]+$'
+          example: John
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          pattern: '^[a-zA-Z\s-]+$'
+          example: Doe
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: john.doe@example.com
+        phone:
+          type: string
+          pattern: '^[\d\s\-\+\(\)]+$'
+          minLength: 10
+          maxLength: 20
+          example: '+1 (615) 555-0123'
+        message:
+          type: string
+          maxLength: 5000
+          example: I would like to discuss a custom event for my venue
+        honeypot:
+          type: string
+          description: Anti-spam field (must be empty)
+          maxLength: 0
+    ContactResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thank you for your submission. We'll contact you within 24 hours.
+        submissionId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+    NewsletterSubscription:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: subscriber@example.com
+        honeypot:
+          type: string
+          description: Anti-spam field (must be empty)
+          maxLength: 0
+    NewsletterResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Please check your email to confirm your subscription
+        requiresConfirmation:
+          type: boolean
+          example: true
+    ConfirmationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Your subscription has been confirmed
+    UnsubscribeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: You have been unsubscribed from our newsletter
+    PageContent:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: privacy-policy
+        title:
+          type: string
+          example: Privacy Policy
+        content:
+          type: string
+          description: Markdown formatted content
+        metadata:
+          type: object
+          properties:
+            description:
+              type: string
+            keywords:
+              type: array
+              items:
+                type: string
+        updatedAt:
+          type: string
+          format: date-time
+    ServiceOffering:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: Custom Branded Events For Venues
+        description:
+          type: string
+        icon:
+          type: string
+          example: calendar
+        displayOrder:
+          type: integer
+    TeamMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Will Bridges
+        role:
+          type: string
+          example: Co-Founder
+        bio:
+          type: string
+        imageUrl:
+          type: string
+          format: uri
+        displayOrder:
+          type: integer
+    LogEntry:
+      type: object
+      required:
+        - level
+        - message
+        - timestamp
+      properties:
+        level:
+          type: string
+          enum: [error, warn, info, debug]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        context:
+          type: object
+          properties:
+            url:
+              type: string
+            userAgent:
+              type: string
+            requestId:
+              type: string
+        error:
+          type: object
+          properties:
+            stack:
+              type: string
+            name:
+              type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: Invalid input provided
+        code:
+          type: string
+          description: Error code for client handling
+          example: VALIDATION_ERROR
+        details:
+          type: object
+          description: Additional error details
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
