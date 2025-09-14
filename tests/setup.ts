@@ -1,0 +1,24 @@
+import '@testing-library/jest-dom'
+
+// Mock Next.js router
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+  usePathname: () => '/',
+}))
+
+// Mock Supabase client
+vi.mock('@/lib/supabase', () => ({
+  supabase: {
+    from: vi.fn(),
+    auth: {
+      getUser: vi.fn(),
+      signOut: vi.fn(),
+    },
+  },
+}))
