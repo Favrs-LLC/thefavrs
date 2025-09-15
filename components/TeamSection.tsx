@@ -11,21 +11,21 @@ interface TeamMember {
   displayOrder: number
 }
 
-// Fallback static data
+// Fallback static data matching seed data
 const fallbackTeamMembers: TeamMember[] = [
   {
     id: '1',
     name: 'Will Bridges',
-    role: 'CEO & Founder',
-    bio: 'Visionary leader with extensive experience in entertainment technology and business development.',
+    role: 'Co-Founder',
+    bio: 'is an engineering leader and entrepreneur with over 25 years of experience in software development, team management, and technology strategy. Known for delivering results across startups and established companies alike, Will has led agile transformations, managed global teams, and overseen the successful deployment of complex systems with a focus on reliability and efficiency. An advocate for AI-driven productivity and modern development practices, he combines deep technical expertise with strong business acumen—negotiating partnerships, optimizing processes, and launching ventures in both technology and entertainment spaces. Based in Nashville, he brings a collaborative, hands-on approach to solving real-world problems and building high-performing teams',
     imageUrl: '/images/will-headshot.png',
     displayOrder: 1
   },
   {
     id: '2',
     name: 'Joe Major',
-    role: 'CTO & Co-Founder',
-    bio: 'Technical expert specializing in scalable systems and innovative solutions for the entertainment industry.',
+    role: 'Co-Founder',
+    bio: 'is a Chicago-born, Nashville-based host, promoter, and radio personality with over 15 years of experience in the entertainment industry. Recognized as an expert nightlife strategist and creative consultant, he has produced and hosted branded events for leading venues, developed marketing campaigns, and collaborated with top-tier artists including Megan Thee Stallion, Cardi B, Migos, and 2 Chainz. Joe is known for his ability to craft immersive, community-driven experiences that strengthen audience engagement and deliver measurable results for partners and brands alike. Currently, he curates and hosts a roster of high-profile weekly events across Nashville, bringing a professional approach and unmistakable energy to every project he touches.',
     imageUrl: '/images/joe-headshot.jpg',
     displayOrder: 2
   }

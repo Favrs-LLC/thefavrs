@@ -10,28 +10,35 @@ interface Service {
   display_order: number
 }
 
-// Fallback static data
+// Fallback static data matching seed data
 const fallbackServices: Service[] = [
   {
     id: '1',
-    title: 'Event Planning & Management',
-    description: 'From intimate gatherings to large-scale productions, we handle every detail to ensure your event is unforgettable.',
+    title: 'Custom Branded Events For Venues',
+    description: 'We create unforgettable branded experiences that strengthen venue identity and build loyal audiences. From concept to execution, our team handles event planning, artist coordination, and marketing campaigns that deliver measurable results for entertainment venues.',
     icon: 'calendar',
     display_order: 1
   },
   {
     id: '2',
-    title: 'Technology Solutions',
-    description: 'Custom software development and technology consulting to streamline your entertainment business operations.',
+    title: 'Software That Helps You Reach Your Customers',
+    description: 'Custom software solutions designed to connect businesses with their target audiences. We build applications, platforms, and tools that streamline operations while enhancing customer engagement and driving growth.',
     icon: 'code',
     display_order: 2
   },
   {
     id: '3',
-    title: 'Creative Services',
-    description: 'Comprehensive creative services including content creation, marketing strategy, and brand development.',
+    title: 'Build You a Beautiful & Professional Website',
+    description: 'Modern, responsive websites that represent your brand professionally online. Our web development services focus on performance, user experience, and conversion optimization to help your business succeed in the digital space.',
     icon: 'globe',
     display_order: 3
+  },
+  {
+    id: '4',
+    title: 'We Help You Make More Sales',
+    description: 'Strategic sales and marketing consulting that drives revenue growth. We analyze your current processes, identify opportunities, and implement systems that increase conversion rates and customer lifetime value.',
+    icon: 'trending-up',
+    display_order: 4
   }
 ]
 
