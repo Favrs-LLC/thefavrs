@@ -32,6 +32,11 @@ const fallbackServices: Service[] = [
 ]
 
 async function getServices(): Promise<Service[]> {
+  // During build time, just return fallback data
+  if (!process.env.NEXT_PUBLIC_BASE_URL && process.env.NODE_ENV !== 'development') {
+    return fallbackServices
+  }
+
   try {
     // Use absolute URL for server-side fetching
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3009'
