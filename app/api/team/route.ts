@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Ensure imageUrl field is properly handled (convert null to null, keep strings as strings)
-    const formattedMembers = (members || []).map(member => ({
+    const formattedMembers = (members || []).map((member: any) => ({
       id: member.id,
       name: member.name,
       role: member.role,
