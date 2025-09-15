@@ -43,14 +43,14 @@ export default function TermsConditions() {
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Info</h2>
             <ul className="list-disc pl-6 mb-4">
               <li>Support via email: will@thefavrs.com</li>
-              <li>Can text "HELP" for instructions</li>
+              <li>Can text &quot;HELP&quot; for instructions</li>
               <li>Unsubscribe instructions available via link in messages</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Transfer of Number</h2>
             <ul className="list-disc pl-6 mb-4">
               <li>Must notify company before changing/transferring mobile number</li>
-              <li>Can reply "STOP" or email old number</li>
+              <li>Can reply &quot;STOP&quot; or email old number</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Privacy</h2>

@@ -45,7 +45,7 @@ export function Footer() {
         {/* Main footer content */}
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-            We'll Make Sure You Have a Good Time, All The Time
+            We&apos;ll Make Sure You Have a Good Time, All The Time
           </h2>
 
           <div className="max-w-md mx-auto">

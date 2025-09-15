@@ -66,7 +66,7 @@ export function ContactSection() {
           </h2>
           <p className="text-xl text-gray-600">
             Ready to take your entertainment business to the next level?
-            Let's discuss how we can help.
+            Let&apos;s discuss how we can help.
           </p>
         </div>
 

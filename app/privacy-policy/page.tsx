@@ -16,16 +16,16 @@ export default function PrivacyPolicy() {
 
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">About Us</h2>
             <p className="mb-4">
-              "We", "us" or "our" means Favrs, LLC, with its principal place of business located at
+              &quot;We&quot;, &quot;us&quot; or &quot;our&quot; means Favrs, LLC, with its principal place of business located at
               4015 TRAVIS DRIVE STE 211 1976, NASHVILLE, TN US 37211.
             </p>
 
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">About This Privacy Policy</h2>
             <p className="mb-4">
-              Your privacy is important to us, so we've developed this Privacy Policy, which explains
+              Your privacy is important to us, so we&apos;ve developed this Privacy Policy, which explains
               how we collect, use, and disclose your personal information. We collect personal information
               when you use our website(s), mobile apps, and other online and offline products, services
-              and experiences (collectively, the "Services"). Please take a moment to read through this
+              and experiences (collectively, the &quot;Services&quot;). Please take a moment to read through this
               Policy in its entirety.
             </p>
             <p className="mb-4">
