@@ -7,6 +7,26 @@ interface TeamMember {
   displayOrder: number
 }
 
+// Fallback static data
+const fallbackTeamMembers: TeamMember[] = [
+  {
+    id: '1',
+    name: 'Will Bridges',
+    role: 'CEO & Founder',
+    bio: 'Visionary leader with extensive experience in entertainment technology and business development.',
+    imageUrl: '/images/will-headshot.png',
+    displayOrder: 1
+  },
+  {
+    id: '2',
+    name: 'Joe Major',
+    role: 'CTO & Co-Founder',
+    bio: 'Technical expert specializing in scalable systems and innovative solutions for the entertainment industry.',
+    imageUrl: '/images/joe-headshot.jpg',
+    displayOrder: 2
+  }
+]
+
 async function getTeamMembers(): Promise<TeamMember[]> {
   try {
     // Use absolute URL for server-side fetching
@@ -20,10 +40,14 @@ async function getTeamMembers(): Promise<TeamMember[]> {
     }
 
     const data = await response.json()
-    return data.members || []
+    const members = data.members || []
+
+    // Return fallback data if no members in database
+    return members.length > 0 ? members : fallbackTeamMembers
   } catch (error) {
     console.error('Failed to fetch team:', error)
-    return []
+    // Return fallback data on error
+    return fallbackTeamMembers
   }
 }
 

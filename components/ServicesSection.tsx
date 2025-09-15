@@ -6,6 +6,31 @@ interface Service {
   display_order: number
 }
 
+// Fallback static data
+const fallbackServices: Service[] = [
+  {
+    id: '1',
+    title: 'Event Planning & Management',
+    description: 'From intimate gatherings to large-scale productions, we handle every detail to ensure your event is unforgettable.',
+    icon: '🎉',
+    display_order: 1
+  },
+  {
+    id: '2',
+    title: 'Technology Solutions',
+    description: 'Custom software development and technology consulting to streamline your entertainment business operations.',
+    icon: '💻',
+    display_order: 2
+  },
+  {
+    id: '3',
+    title: 'Creative Services',
+    description: 'Comprehensive creative services including content creation, marketing strategy, and brand development.',
+    icon: '🎨',
+    display_order: 3
+  }
+]
+
 async function getServices(): Promise<Service[]> {
   try {
     // Use absolute URL for server-side fetching
@@ -19,10 +44,14 @@ async function getServices(): Promise<Service[]> {
     }
 
     const data = await response.json()
-    return data.services || []
+    const services = data.services || []
+
+    // Return fallback data if no services in database
+    return services.length > 0 ? services : fallbackServices
   } catch (error) {
     console.error('Failed to fetch services:', error)
-    return []
+    // Return fallback data on error
+    return fallbackServices
   }
 }
 
