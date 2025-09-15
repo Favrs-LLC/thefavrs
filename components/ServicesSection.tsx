@@ -1,3 +1,7 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
 interface Service {
   id: string
   title: string
@@ -60,8 +64,12 @@ async function getServices(): Promise<Service[]> {
   }
 }
 
-export async function ServicesSection() {
-  const services = await getServices()
+export function ServicesSection() {
+  const [services, setServices] = useState<Service[]>(fallbackServices)
+
+  useEffect(() => {
+    getServices().then(setServices)
+  }, [])
 
   const iconMap: Record<string, string> = {
     calendar: '📅',

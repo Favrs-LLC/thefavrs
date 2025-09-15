@@ -1,3 +1,7 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
 interface TeamMember {
   id: string
   name: string
@@ -56,8 +60,12 @@ async function getTeamMembers(): Promise<TeamMember[]> {
   }
 }
 
-export async function TeamSection() {
-  const members = await getTeamMembers()
+export function TeamSection() {
+  const [members, setMembers] = useState<TeamMember[]>(fallbackTeamMembers)
+
+  useEffect(() => {
+    getTeamMembers().then(setMembers)
+  }, [])
 
   return (
     <section id="team" className="py-16 bg-white">
