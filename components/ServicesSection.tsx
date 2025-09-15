@@ -12,21 +12,21 @@ const fallbackServices: Service[] = [
     id: '1',
     title: 'Event Planning & Management',
     description: 'From intimate gatherings to large-scale productions, we handle every detail to ensure your event is unforgettable.',
-    icon: '🎉',
+    icon: 'calendar',
     display_order: 1
   },
   {
     id: '2',
     title: 'Technology Solutions',
     description: 'Custom software development and technology consulting to streamline your entertainment business operations.',
-    icon: '💻',
+    icon: 'code',
     display_order: 2
   },
   {
     id: '3',
     title: 'Creative Services',
     description: 'Comprehensive creative services including content creation, marketing strategy, and brand development.',
-    icon: '🎨',
+    icon: 'globe',
     display_order: 3
   }
 ]
